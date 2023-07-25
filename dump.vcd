@@ -1,0 +1,164 @@
+$date
+	Tue Jul 25 17:29:09 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module tb_cache_controller $end
+$var wire 1 ! tb_n_nrst $end
+$var wire 98 " tb_mem_req [97:0] $end
+$var wire 33 # tb_cpu_res [32:0] $end
+$var parameter 32 $ CLK_PERIOD $end
+$var reg 1 % tb_clk $end
+$var reg 66 & tb_cpu_req [65:0] $end
+$var reg 65 ' tb_mem_res [64:0] $end
+$var reg 1 ( tb_n_rst $end
+$scope module DUT $end
+$var wire 1 % clk $end
+$var wire 66 ) cpu_req [65:0] $end
+$var wire 65 * mem_res [64:0] $end
+$var wire 1 ! n_rst $end
+$var wire 91 + cache_res [90:0] $end
+$var reg 124 , cache_req [123:0] $end
+$var reg 33 - cpu_res [32:0] $end
+$var reg 2 . curr_state [1:0] $end
+$var reg 98 / mem_req [97:0] $end
+$var reg 2 0 next_state [1:0] $end
+$scope module CACHE_MEM $end
+$var wire 124 1 cache_req [123:0] $end
+$var wire 1 % clk $end
+$var wire 1 2 wen0 $end
+$var wire 1 3 wen1 $end
+$var wire 26 4 tag_r1 [25:0] $end
+$var wire 26 5 tag_r0 [25:0] $end
+$var wire 1 6 lru1 $end
+$var wire 1 7 hit1 $end
+$var wire 1 8 hit0 $end
+$var wire 64 9 data_r1 [63:0] $end
+$var wire 64 : data_r0 [63:0] $end
+$var reg 91 ; cache_res [90:0] $end
+$scope module LRU $end
+$var wire 1 % clk $end
+$var wire 5 < idx [4:0] $end
+$var wire 1 6 lru1 $end
+$var wire 1 = req_done $end
+$var wire 1 8 hit0 $end
+$scope begin $ivl_for_loop1 $end
+$var integer 32 > i [31:0] $end
+$upscope $end
+$upscope $end
+$scope module WAY0 $end
+$var wire 32 ? addr [31:0] $end
+$var wire 1 % clk $end
+$var wire 64 @ data_r [63:0] $end
+$var wire 64 A data_w [63:0] $end
+$var wire 26 B tag_r [25:0] $end
+$var wire 26 C tag_w [25:0] $end
+$var wire 1 2 wen $end
+$var wire 5 D index [4:0] $end
+$var reg 1 8 hit $end
+$var reg 26 E tmp [25:0] $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 F i [31:0] $end
+$upscope $end
+$scope begin HIT_LOGIC $end
+$upscope $end
+$upscope $end
+$scope module WAY1 $end
+$var wire 32 G addr [31:0] $end
+$var wire 1 % clk $end
+$var wire 64 H data_r [63:0] $end
+$var wire 64 I data_w [63:0] $end
+$var wire 26 J tag_r [25:0] $end
+$var wire 26 K tag_w [25:0] $end
+$var wire 1 3 wen $end
+$var wire 5 L index [4:0] $end
+$var reg 1 7 hit $end
+$var reg 26 M tmp [25:0] $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 N i [31:0] $end
+$upscope $end
+$scope begin HIT_LOGIC $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope begin CONTROLLER_LOGIC $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1100100 $
+$end
+#0
+$dumpvars
+b100000 N
+b0 M
+b0 L
+b10000000000000000000000000 K
+b0 J
+b0 I
+b0 H
+b0 G
+b100000 F
+b0 E
+b0 D
+b10000000000000000000000000 C
+b0 B
+b0 A
+b0 @
+b0 ?
+b100000 >
+0=
+b0 <
+b0 ;
+b0 :
+b0 9
+08
+07
+06
+b0 5
+b0 4
+03
+02
+b1000000000000000000000000000 1
+bx 0
+b0 /
+bx .
+b0 -
+b1000000000000000000000000000 ,
+b0 +
+b0 *
+b0 )
+0(
+b0 '
+b0 &
+0%
+b0 #
+b0 "
+z!
+$end
+#50
+1%
+#100
+0%
+#150
+1%
+#200
+0%
+#250
+1%
+#300
+0%
+#350
+1%
+#400
+0%
+#450
+1%
+#500
+0%

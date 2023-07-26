@@ -7,6 +7,10 @@ The data cache also has a block size of 2 words where each word is 32 bits wide.
 
 All code is in the **source** directory. 
 
+## Tech 
+`iverilog`: verilog compiler
+
+`gtkwave`: waveform viewer 
 
 ## References 
 - Patterson, David A., et al. "Implementing Cache Controllers" in *Computer Organization and Design: The Hardware/Software Interface.* ARM® edition, Elsevier/Morgan Kaufmann, 2017. 

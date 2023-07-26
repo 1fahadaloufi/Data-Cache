@@ -7,7 +7,7 @@ The data cache also has a block size of 2 words where each word is 32 bits wide.
 
 All code is in the **source** directory. 
 
-## Tech 
+## Tools
 `iverilog`: verilog compiler
 
 `gtkwave`: waveform viewer 

@@ -30,9 +30,9 @@ cache_mem CACHE_MEM(
 always_comb begin: CONTROLLER_LOGIC
     // default signals
     next_state = curr_state; // no change in state
-    mem_req = '{cpu_req.addr, cache_res.data, 1'b0, 1'b0}; // the 1'b0s are rw and valid bits 
+    mem_req = '{1'b0, 1'b0, cpu_req.addr, cache_res.data}; // the 1'b0s are rw and valid bits 
     cpu_res = '{'b0, 'b0}; // data ='b0, req_done = 'b0; 
-    cache_req = '{cpu_req.addr, cache_res.data, cache_res.tag , 'b0, 'b0}; // the 'b0s are data, tag, rw and req done bits
+    cache_req = '{cache_res.tag, 'b0, 'b0, cpu_req.addr, cache_res.data}; // the 'b0s are data, tag, rw and req done bits
     
     cache_req.tag.tag = cpu_req.addr[TAG_MSB:TAG_LSB]; 
     cache_req.tag.valid = 1'b1; 
@@ -40,11 +40,11 @@ always_comb begin: CONTROLLER_LOGIC
     // select correct word to read & write 
     if(cpu_req.addr[WORD_SEL_BIT]) begin
         cpu_res.data = cache_res.data[63:32];
-        cache_req.data[63:32] = cpu_res.data;
+        cache_req.data[63:32] = cpu_req.data;
     end 
     else begin
         cpu_res.data = cache_res.data[31:0];
-        cache_req.data[31:0] = cpu_res.data; 
+        cache_req.data[31:0] = cpu_req.data; 
     end  
     
 
@@ -74,6 +74,7 @@ always_comb begin: CONTROLLER_LOGIC
         WRITE_BACK: begin
             if(mem_res.ready) begin
                 mem_req.valid = 1'b1; 
+                mem_req.rw = 1'b1; 
                 next_state = ALLOCATE; 
             end
         end

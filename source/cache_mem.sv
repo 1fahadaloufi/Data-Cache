@@ -7,8 +7,6 @@ module cache_mem(
     output cache_res_type cache_res
 );
 
-// logic[63:0] data_w; 
-// tag_type tag_w; 
 
 // way0 signals
 logic wen0; 
@@ -65,7 +63,7 @@ assign wen1 = lru1 & cache_req.rw;
 
 always_comb begin
     cache_res.hit = hit0 | hit1; 
-    if(hit0) begin
+    if(~hit1 && (hit0 || ~lru1)) begin
         cache_res.data = data_r0; 
         cache_res.tag  = tag_r0; 
     end 
@@ -73,6 +71,7 @@ always_comb begin
         cache_res.data = data_r1; 
         cache_res.tag = tag_r1; 
     end
+
 end
 
 

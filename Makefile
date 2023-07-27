@@ -1,5 +1,5 @@
 ###########################################################################################
-# STARS 2023 General Makefile: Credit to Vishnu Lagudu
+# Adapted from Purdue STARS 2023 Program: Credit to Vishnu Lagudu
 # 
 # Set tab spacing to 2 spaces per tab for best viewing results
 ###########################################################################################

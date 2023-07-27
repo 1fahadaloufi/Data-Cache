@@ -24,19 +24,20 @@ Cache Memory & Controller Interface Signals
 
 // Controller -> Cache interface
 typedef struct packed {
-    logic[31:0] addr;
-    logic[63:0] data;
     tag_type tag; 
-
     logic rw;
     logic req_done; 
+    
+    logic[31:0] addr;
+    logic[63:0] data;
 } cache_req_type; // cache request type
 
 // Cache -> Controller 
 typedef struct packed {
     logic hit;
-    logic[63:0] data;
     tag_type tag;  
+    
+    logic[63:0] data;
 } cache_res_type; //cache response type
 
 /* 
@@ -47,16 +48,16 @@ Main Memory & Controller Interface Signals
 
 // memory -> controller
 typedef struct packed {
-    logic[63:0] data; 
     logic ready;
+    logic[63:0] data; 
 } mem_res_type; 
 
 // controller -> memory
 typedef struct packed {
-    logic[31:0] addr; 
-    logic[63:0] data; 
     logic rw; 
     logic valid; 
+    logic[31:0] addr; 
+    logic[63:0] data; 
 } mem_req_type; 
 
 /* 
@@ -67,16 +68,16 @@ CPU & Controller Interface Signals
 
 // cpu -> controller
 typedef struct packed{
-    logic[31:0] addr; 
-    logic[31:0] data; 
     logic rw; 
     logic valid; 
+    logic[31:0] addr; 
+    logic[31:0] data; 
 } cpu_req_type; 
 
 // controller -> cpu
 typedef struct packed{
-    logic[31:0] data; 
-    logic req_done; 
+    logic req_done;
+    logic[31:0] data;  
 } cpu_res_type; 
 
 `endif 

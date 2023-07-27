@@ -17,18 +17,8 @@ mem_req_type tb_mem_req;
 cpu_req_type tb_cpu_req; 
 cpu_res_type tb_cpu_res; 
 
-// logic[31:0] tb_addr;
-// logic tb_wen;
-// tag_type tb_tag_w; 
-// logic[63:0] tb_data_w; 
 
-//outputs
-//cache_res_type tb_cache_res; 
-// logic[63:0] tb_data_r; 
-// tag_type tb_tag_r; 
-// logic tb_hit; 
-
-
+// clock
 always begin
     tb_clk = 1'b0; 
     #(CLK_PERIOD / 2.0);
@@ -39,7 +29,7 @@ end
 
 cache_controller DUT(
     .clk(tb_clk),
-    .n_rst(tb_n_nrst),
+    .n_rst(tb_n_rst),
 
     .mem_res(tb_mem_res),
     .mem_req(tb_mem_req),
@@ -47,81 +37,129 @@ cache_controller DUT(
     .cpu_req(tb_cpu_req),
     .cpu_res(tb_cpu_res)
 );
-// cache_mem DUT(
-//     .clk(tb_clk),
-//     .cache_req(tb_cache_req),
-    
-//     .cache_res(tb_cache_res)
-// ); 
-// cache_mem DUT(
-    
-//     // inputs 
-//     .clk(tb_clk),
-//     .addr(tb_addr),
-//     .wen(tb_wen),
-//     .tag_w(tb_tag_w),
-//     .data_w(tb_data_w),
 
-//     //outputs 
-//     .data_r(tb_data_r),
-//     .tag_r(tb_tag_r),
-//     .hit(tb_hit)
-// );
+main_mem MAIN_MEM(
+    .clk(tb_clk), 
+
+    .mem_res(tb_mem_res),
+
+    .mem_req(tb_mem_req)
+); 
 
 initial begin
     $dumpfile("dump.vcd");
     $dumpvars;
 end
 
+// simulation starts here 
 initial begin
-
     tb_n_rst = 1'b0; 
-    tb_mem_res = 'b0; 
     tb_cpu_req = 'b0;
 
-    #(CLK_PERIOD * 5);  
-    // tb_cache_req = 'b0; 
+    #(CLK_PERIOD * 2);
 
-    // #(CLK_PERIOD * 5); 
+    @(negedge tb_clk);
+    tb_n_rst = 1'b1; 
+
+    // TEST CASE 1: Write to cache index 28, upper word
+    tb_cpu_req.addr = 32'he4; 
+    tb_cpu_req.data = 32'habcdefab; 
+    tb_cpu_req.rw = 1'b1; 
+    tb_cpu_req.valid = 1'b1; 
 
 
-    // @(negedge tb_clk);
-    // tb_cache_req.addr = 32'hf8; 
-    // tb_cache_req.rw = 1'b1; 
-    // tb_cache_req.data = '1; 
-    // tb_cache_req.tag = '{1'b1, 1'b1, tb_cache_req.addr[TAG_MSB:TAG_LSB]}; 
+    @(posedge tb_cpu_res.req_done); 
+    @(posedge tb_clk);
+    tb_cpu_req.valid = 1'b0; 
+
+    // then read the data
+
+    @(posedge tb_clk); 
+    tb_cpu_req.rw = 1'b0; 
+    tb_cpu_req.valid = 1'b1; 
+
+    @(posedge tb_clk); 
+    tb_cpu_req.valid = 1'b0;
+    @(posedge tb_clk); 
+
+    // TEST CASE 2: write to same index in different way, lower word
+    tb_cpu_req.addr = 32'h1e0; 
+    tb_cpu_req.data = 32'habcabcaa; 
+    tb_cpu_req.rw = 1'b1; 
+    tb_cpu_req.valid = 1'b1; 
+
+    @(posedge tb_clk); 
+    @(posedge tb_cpu_res.req_done); 
+    @(posedge tb_clk); 
+    tb_cpu_req.valid = 1'b0; 
+
+
+
+
+    // TEST CASE 3: Test write back policy 
+    tb_cpu_req.addr = 32'h2e0; // should write to way 1 @ index 28
+    tb_cpu_req.data = 32'hfafafa00; 
+    tb_cpu_req.rw = 1'b1; 
+    tb_cpu_req.valid = 1'b1; 
     
-    // @(negedge tb_clk); 
-    // tb_cache_req.rw = 1'b0; 
-    // tb_cache_req.req_done = 1'b1; 
-
-    // @(negedge tb_clk); 
-   // tb_cache_req.req_done = 1'b0;
-
-    //#(CLK_PERIOD * 2); 
-    // tb_addr = 'b0; 
-    // tb_wen = 'b0; 
-    // tb_tag_w = 'b0; 
-    // tb_data_w = 'b0; 
-
-    // #(CLK_PERIOD * 2);
-
-    // @(negedge tb_clk); 
-    // tb_addr = 32'hf8; 
-    // tb_data_w = '1; 
-    // tb_tag_w = '{1'b1, 1'b1, 24'b0};
-    // tb_wen = 1'b1; 
-    // @(negedge tb_clk);
-    // tb_wen = 1'b0;
-
-    // #(CLK_PERIOD * 2);
+    @(posedge tb_clk);
+    @(posedge tb_cpu_res.req_done);
+    @(posedge tb_clk);
+    tb_cpu_req.valid = 1'b0; 
+    
+    
+    #(CLK_PERIOD * 10); 
 
 
     $finish; 
 
 end
 
+initial begin
+    #(CLK_PERIOD * 30); 
+    $finish; 
+end
 
+endmodule 
+
+module main_mem(
+    input logic clk, 
+    input mem_req_type mem_req,
+
+    output mem_res_type mem_res
+);
+
+logic[63:0] mem_data[0:1024]; 
+logic ready1, ready2; 
+
+initial begin
+    ready1 = 1'b0;
+    ready2 = 1'b0; 
+    mem_res = 'b0; 
+end
+
+always_comb begin
+    for(integer i = 0; i < 1024; i += 1) begin
+        mem_data[i] = 'b0; 
+    end
+        if(mem_req.valid == 1'b1) begin
+            if(mem_req.rw) begin
+                mem_data[mem_req.addr >> 3] = mem_req.data; 
+            end
+            else begin
+                mem_res.data = mem_data[mem_req.addr >> 3];
+            end
+            ready1 = 1'b1; 
+        end
+        else 
+            ready1 = 1'b0; 
+end
+
+// takes 2 clock cycles to process any mem request 
+always_ff @(posedge clk) begin
+    mem_res.ready <= ready2; 
+    ready2 <= ready1; 
+end
 
 
 

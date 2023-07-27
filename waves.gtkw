@@ -1,33 +1,47 @@
 [*]
 [*] GTKWave Analyzer v3.3.107 (w)1999-2020 BSI
-[*] Tue Jul 25 20:02:47 2023
+[*] Wed Jul 26 22:40:23 2023
 [*]
 [dumpfile] "/Users/fahadaloufi/Desktop/Growth/Data-Cache/dump.vcd"
-[dumpfile_mtime] "Tue Jul 25 20:01:15 2023"
-[dumpfile_size] 3255
+[dumpfile_mtime] "Wed Jul 26 22:36:02 2023"
+[dumpfile_size] 12293
 [savefile] "/Users/fahadaloufi/Desktop/Growth/Data-Cache/waves.gtkw"
-[timestart] 354
-[size] 1334 600
-[pos] 189 247
-*-7.000000 608 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
-[treeopen] tb_cache.
-[treeopen] tb_cache.DUT.
-[sst_width] 199
-[signals_width] 388
+[timestart] 1101
+[size] 1413 600
+[pos] 111 99
+*-8.000000 1335 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_cache_controller.
+[treeopen] tb_cache_controller.DUT.
+[treeopen] tb_cache_controller.DUT.CACHE_MEM.
+[sst_width] 193
+[signals_width] 393
 [sst_expanded] 1
 [sst_vpaned_height] 167
 @28
-tb_cache.tb_clk
+tb_cache_controller.DUT.clk
+tb_cache_controller.DUT.n_rst
+[color] 2
+tb_cache_controller.DUT.curr_state[1:0]
+[color] 2
+tb_cache_controller.DUT.next_state[1:0]
 @22
-tb_cache.DUT.cache_req[123:0]
-tb_cache.DUT.cache_res[64:0]
+[color] 3
+tb_cache_controller.DUT.cache_req[123:0]
+[color] 3
+tb_cache_controller.DUT.cache_res[90:0]
+[color] 6
+tb_cache_controller.DUT.cpu_req[65:0]
+[color] 6
+tb_cache_controller.DUT.cpu_res[32:0]
+tb_cache_controller.DUT.mem_req[97:0]
+tb_cache_controller.DUT.mem_res[64:0]
 @28
-tb_cache.DUT.LRU.lru1
+tb_cache_controller.DUT.CACHE_MEM.wen0
 @22
-tb_cache.WAY0.data_w[63:0]
-@28
-tb_cache.WAY0.hit
-@23
-tb_cache.WAY0.tag_r[25:0]
+tb_cache_controller.DUT.WAY0.tag_w[25:0]
+tb_cache_controller.DUT.CACHE_MEM.tag_r0[25:0]
+tb_cache_controller.DUT.WAY0.data_w[63:0]
+@29
+tb_cache_controller.DUT.CACHE_MEM.LRU.lru1
 [pattern_trace] 1
 [pattern_trace] 0
